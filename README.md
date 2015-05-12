@@ -2,6 +2,7 @@
 Intel Conversion Framework
 
 AUTHOR: Adam Burt
+
 E-MAIL: BURT<dot>ADAM<at>GMAIL<dot>COM
 
 DESCRIPTION:
