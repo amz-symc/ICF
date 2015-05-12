@@ -1,40 +1,40 @@
 # ICF
-Intel Conversion Framework
+<b>Intel Conversion Framework</b>
 
-AUTHOR: Adam Burt
+<b>AUTHOR:</b> Adam Burt
 
-E-MAIL: BURT(dot)ADAM(at)GMAIL(dot)COM
+<b>E-MAIL:</b> BURT(dot)ADAM(at)GMAIL(dot)COM
 
-DESCRIPTION:
+<b>DESCRIPTION:</b>
 
 This simple framework will convert source data to a useable destination data format. The framework monitors (multiple)
 folders and will pass each file it finds to a set of "modules" that then process the data.
 
-WHY:
+<b>WHY:</b>
 
 When using multiple sources of intel, I have found they come in various formats. When one wants to put these data
 sources into a central repository (such as CIF), they require converting to a format that is recognised. This framework
 aims to provide a simple darg 'n drop method for this process.
 
-HOW:
+<b>HOW:</b>
 
 There are 3 main processes that run:
 
-MONITOR:
+<b>MONITOR:</b>
 
 Will actively monitor the desired folder(s) for files and pass them to "START" for distributed module processing.
 
-DELETOR:
+<b>DELETOR:</b>
 
 Will actively monitor an inter-process queue between the module and itself, containing files that need to be deleted
 after being processed by the module.
 
-START:
+<b>START:</b>
 
 The main process that is responsible for passing new files to the individual modules
 
 
-MODULES:
+<b>MODULES:</b>
 
 These can be whatever you like them to be. The only require a few things:
 
@@ -50,7 +50,7 @@ These can be whatever you like them to be. The only require a few things:
                         
                         deleteQueue   - Queue to push abs filenames to for deletion
                         
-  E.G:
+  <b>E.G:</b>
   
   def run(fileName, fileNamePath, outputBase, deleteQueue):
   
