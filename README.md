@@ -3,7 +3,7 @@ Intel Conversion Framework
 
 AUTHOR: Adam Burt
 
-E-MAIL: BURT<dot>ADAM<at>GMAIL<dot>COM
+E-MAIL: BURT(dot)ADAM(at)GMAIL(dot)COM
 
 DESCRIPTION:
 This simple framework will convert source data to a useable destination data format. The framework monitors (multiple)
@@ -40,9 +40,9 @@ These can be whatever you like them to be. The only require a few things:
   E.G:
   
   def run(fileName, fileNamePath, outputBase, deleteQueue):
-    <check that fileNamePath exists and is of a format that this module understands and will process>
-    <process the fileNamePath in whatever way you need>
-    <output the results to outputBase\<whateveryouwant>
-    <push the fileNamePath to deleteQueue> if you have processed it and want to remove it
+    (check that fileNamePath exists and is of a format that this module understands and will process)
+    (process the fileNamePath in whatever way you need)
+    (output the results to outputBase\<whateveryouwant)
+    (push the fileNamePath to deleteQueue> if you have processed it and want to remove it)
   
   
