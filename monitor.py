@@ -28,7 +28,13 @@ def run(monitorPath,fileQueue,locker,exitQueue,interval,PPID):
         if (len(files) > 0):
             for fileName in files:
                 temp = (fileName,(os.path.join(monitorPath,fileName)))
-                fileQueue.put(temp)
+                temp2 = (fileName,(os.path.join(monitorPath,"tmp.tmp")))
+                try:
+                    os.rename(temp[1], temp2[1])
+                    os.rename(temp2[1], temp[1])
+                    fileQueue.put(temp)
+                except:
+                    pass
         #locker.release()
         #Always check the queue for an exit command
         if (exitQueue.empty() == False):
