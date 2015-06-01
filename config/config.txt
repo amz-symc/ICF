@@ -1,7 +1,7 @@
 
 #MONITORPATH is to declare which path to use for the monitoring process. You can specify multiple paths by adding more than one MONITORPATH to this config
 MONITORPATH="C:\monitor"
-#MONITORPATH="C:\Program Files (x86)\Deepsight Storage Server\Downloaded"
+#MONITORPATH="./monitor"
 
 
 #AUTOEXIT is used to declare how long to run the program for. If set to "0" the program will run indefinitely until manually terminated. The value is in seconds
