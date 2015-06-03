@@ -67,7 +67,7 @@ def main():
 CONFIG LOADED |>
 =============/
 
-Monitor Path = {0}
+Monitor Path(s) = {0}
 Monitor interval = {2}(seconds)
 Automatically exit = {1}(seconds)
 Base output folder = {3}
