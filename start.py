@@ -54,6 +54,10 @@ def main():
             quit()
     autoexit = int(loadConfig("AUTOEXIT",configFile))
     baseOutput = os.path.abspath(loadConfig("BASEOUTPUT",configFile))
+    try:
+        os.mkdir(baseOutput)
+    except:
+        pass
     monitorInterval = int(loadConfig("MONITORINTERVAL",configFile))
     print """
 
