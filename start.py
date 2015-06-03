@@ -48,7 +48,7 @@ def main():
 
     #Variables------------------------------------------------------------
     monitorPath = loadConfig("MONITORPATH",configFile)
-    for x in monitorPath:        
+    for x in monitorPath:
         if (os.path.exists(x) == False):
             print "Monitor path \"{0}\" does not exist".format(x)
             quit()
@@ -107,7 +107,7 @@ Base output folder = {3}
 
     #Start monitoring the monitor folder---------------------------------------
     myPID = os.getpid()
-    for x in monitorPath:        
+    for x in monitorPath:
         mon = Process(target=monitor.run, args=(x,fileQueue,locker,terminateQueue,monitorInterval, myPID))
         mon.start()
     dele = Process(target=deletor.run, args=(deleteQueue,locker,terminateQueue,myPID))
