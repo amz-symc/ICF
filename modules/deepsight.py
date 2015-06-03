@@ -198,6 +198,63 @@ def ConvertSO(f, g, filetype, contenttype):
         if ((filetype == "Single") and (contenttype == "IP")):
             writer.writerow((row[0], "Imported", "malicious", "70", "high", "Single list import"))
 
+def ConvertBro(f, g, filetype, contenttype):
+    dialect = csv.excel_tab
+    reader = csv.reader(f)
+    reader.next()
+    writer = csv.writer(g, dialect)
+    if filetype == "IP":
+        writer.writerow(("#fields", "indicator", "indicator_type", "meta.source", "meta.desc", "meta.cif_severity"))
+    for row in reader:
+        if filetype == "IP":
+            if contenttype == "Standard":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP", row[4], "high"))
+            if contenttype == "bot":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP Botnet", row[36], "high"))
+            if contenttype == "attack":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP Attack", row[36], "high"))
+            if contenttype == "cnc":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP CNC", row[36], "high"))
+            if contenttype == "malware":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP Malware", row[36], "high"))
+            if contenttype == "phishing / fraud":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP Phishing / fraud", row[48], "high"))
+            if contenttype == "spam":
+                writer.writerow((row[0], "Intel::ADDR", "Deepsight IP Spam", "Spam", "high"))
+        if filetype == "URL":
+            if contenttype == "Standard":
+                writer.writerow((row[8], "Intel::URL", "Deepsight URL", row[4], "high"))
+            if contenttype == "attack":
+                try:
+                    writer.writerow((row[0], "Intel::DOMAIN", "Deepsight URL Attack", "Malicious domain", "high"))
+                except:
+                    pass
+            if contenttype == "cnc":
+                try:
+                    if row[49] != "":
+                        desc = "CNC"
+                    else:
+                        desc = row[49]
+                    writer.writerow((row[0], "Intel::Domain", "Deepsight URL CNC", desc, "high"))
+                except:
+                    pass
+            if contenttype == "malware":
+                try:
+                    if row[49] != "":
+                        desc = "{0} - {1}".format(row[50], row[53])
+                    else:
+                        desc = "Malware"
+                    writer.writerow((row[0], "Intel::Domain", "Deepsight URL Malware", desc, "high"))
+                except:
+                    pass
+            if contenttype == "phishing / fraud":                
+                writer.writerow((row[0], "Intel::Domain", "Deepsight URL Phishing / Fraud", "Phishing / fraud", "high"))
+        if ((filetype == "Single") and (contenttype == "IP")):
+            writer.writerow((row[0], "Intel::ADDR", "Custom single IP list", "Malicious", "high"))
+
+        if ((filetype == "Single") and (contenttype == "hash")):
+            writer.writerow((row[0], "Intel::FILE_HASH", "Custom single hash list", "Malicious", "high"))
+
 
 def run(fileName, fileNamePath, outputBase, deleteQueue):
     canRemove = 0
@@ -206,6 +263,7 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
         temp = validFile.split(" ")
         if (validFile != "Not recognised"):
             if (validFile.find("IP") != -1):
+                
                 outputFile = os.path.join(outputBase, "TB")
                 try:
                     os.mkdir(outputFile)
@@ -218,6 +276,7 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 canRemove = 1
                 f.close()
                 g.close()
+
                 outputFile = os.path.join(outputBase, "SO")
                 try:
                     os.mkdir(outputFile)
@@ -230,7 +289,22 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 f.close()
                 g.close()
                 canRemove = 1
+
+                outputFile = os.path.join(outputBase, "Bro")
+                try:
+                    os.mkdir(outputFile)
+                except:
+                    pass
+                outputFile = os.path.join(outputFile, ("{0}.tsv".format((fileName.split("."))[0])))
+                f = open(fileNamePath, "rb")
+                g = open(outputFile, "wb")
+                ConvertBro(f, g, temp[0], temp[1])
+                f.close()
+                g.close()
+                canRemove = 1
+                
             if (validFile.find("URL") != -1):
+                
                 outputFile = os.path.join(outputBase, "TB")
                 try:
                     os.mkdir(outputFile)
@@ -243,6 +317,7 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 canRemove = 1
                 f.close()
                 g.close()
+
                 outputFile = os.path.join(outputBase, "SO")
                 try:
                     os.mkdir(outputFile)
@@ -255,7 +330,22 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 f.close()
                 g.close()
                 canRemove = 1
+
+                outputFile = os.path.join(outputBase, "Bro")
+                try:
+                    os.mkdir(outputFile)
+                except:
+                    pass
+                outputFile = os.path.join(outputFile, ("{0}.tsv".format((fileName.split("."))[0])))
+                f = open(fileNamePath, "rb")
+                g = open(outputFile, "wb")
+                ConvertBro(f, g, temp[0], temp[1])
+                f.close()
+                g.close()
+                canRemove = 1
+                
             if ((validFile.find("IP") != -1) and (validFile.find("Single")== -1) and (os.path.exists(fileNamePath))):
+
                 outputFile = os.path.join(outputBase, "PS")
                 try:
                     os.mkdir(outputFile)
@@ -268,7 +358,22 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 f.close()
                 g.close()
                 canRemove = 1
+
+                outputFile = os.path.join(outputBase, "Bro")
+                try:
+                    os.mkdir(outputFile)
+                except:
+                    pass
+                outputFile = os.path.join(outputFile, ("{0}.tsv".format((fileName.split("."))[0])))
+                f = open(fileNamePath, "rb")
+                g = open(outputFile, "wb")
+                ConvertBro(f, g, temp[0], temp[1])
+                f.close()
+                g.close()
+                canRemove = 1
+                
             if ((validFile.find("hash") != -1) and (os.path.exists(fileNamePath))):
+
                 outputFile = os.path.join(outputBase, "KFF")
                 try:
                     os.mkdir(outputFile)
@@ -281,6 +386,7 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 f.close()
                 g.close()
                 canRemove = 1
+
                 outputFile = os.path.join(outputBase, "TB")
                 outputFile = os.path.join(outputFile, fileName)
                 f = open(fileNamePath, "rb")
@@ -289,6 +395,20 @@ def run(fileName, fileNamePath, outputBase, deleteQueue):
                 f.close()
                 g.close()
                 canRemove = 1
+
+                outputFile = os.path.join(outputBase, "Bro")
+                try:
+                    os.mkdir(outputFile)
+                except:
+                    pass
+                outputFile = os.path.join(outputFile, ("{0}.tsv".format((fileName.split("."))[0])))
+                f = open(fileNamePath, "rb")
+                g = open(outputFile, "wb")
+                ConvertBro(f, g, temp[0], temp[1])
+                f.close()
+                g.close()
+                canRemove = 1
+                
             if ((validFile.find("Single IP") != -1) and (os.path.exists(fileNamePath))):
                 outputFile = os.path.join(outputBase, "PS")
                 try:
