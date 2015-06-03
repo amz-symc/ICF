@@ -1,14 +1,13 @@
 
 #MONITORPATH is to declare which path to use for the monitoring process. You can specify multiple paths by adding more than one MONITORPATH to this config
-MONITORPATH="C:\monitor"
-#MONITORPATH="./monitor"
+MONITORPATH="./monitor"
 
 
 #AUTOEXIT is used to declare how long to run the program for. If set to "0" the program will run indefinitely until manually terminated. The value is in seconds
 AUTOEXIT="600"
 
-#BASEOUTPUT is the relative base folder location that modules use to output newly formatted data
+#BASEOUTPUT is the base folder location that modules use to output newly formatted data
 BASEOUTPUT="./output"
 
 #MONITORINTERVAL is how often to check the MONITORPATH for new files. The value is in seconds
-MONITORINTERVAL="1"
+MONITORINTERVAL="10"

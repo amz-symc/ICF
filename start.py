@@ -49,15 +49,21 @@ def main():
     #Variables------------------------------------------------------------
     monitorPath = loadConfig("MONITORPATH",configFile)
     for x in monitorPath:
-        if (os.path.exists(x) == False):
-            print "Monitor path \"{0}\" does not exist".format(x)
-            quit()
+        x = os.path.abspath(x)
+        if not(os.path.exists(x)):
+            try:
+                os.mkdir(x)
+            except:
+                print "Monitor path \"{0}\" does not exist".format(x)
+                quit()
     autoexit = int(loadConfig("AUTOEXIT",configFile))
     baseOutput = os.path.abspath(loadConfig("BASEOUTPUT",configFile))
-    try:
-        os.mkdir(baseOutput)
-    except:
-        pass
+    if not(os.path.exists(baseOutput)):
+        try:
+            os.mkdir(baseOutput)
+        except:
+            print "Could not find or create output base folder \"{0}\"".format(baseOutput)
+            quit()
     monitorInterval = int(loadConfig("MONITORINTERVAL",configFile))
     print """
 
@@ -67,7 +73,11 @@ def main():
 CONFIG LOADED |>
 =============/
 
-Monitor Path = {0}
+Monitor Path(s) = """
+    for x in monitorPath:
+        print "                   {0}".format((os.path.abspath(x)))
+
+    print """\n
 Monitor interval = {2}(seconds)
 Automatically exit = {1}(seconds)
 Base output folder = {3}
@@ -108,6 +118,7 @@ Base output folder = {3}
     #Start monitoring the monitor folder---------------------------------------
     myPID = os.getpid()
     for x in monitorPath:
+        x = os.path.abspath(x)
         mon = Process(target=monitor.run, args=(x,fileQueue,locker,terminateQueue,monitorInterval, myPID))
         mon.start()
     dele = Process(target=deletor.run, args=(deleteQueue,locker,terminateQueue,myPID))
